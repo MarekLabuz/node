@@ -29,6 +29,7 @@ const remark2rehype = require('remark-rehype');
 const raw = require('rehype-raw');
 const htmlStringify = require('rehype-stringify');
 
+const { replaceLinks } = require('./markdown');
 const html = require('./html');
 const json = require('./json');
 
@@ -71,6 +72,7 @@ fs.readFile(filename, 'utf8', (er, input) => {
   if (er) throw er;
 
   const content = unified()
+    .use(replaceLinks)
     .use(markdown)
     .use(html.preprocessText)
     .use(json.jsonAPI, { filename })
